@@ -1,6 +1,15 @@
+import { Navbar } from "../components";
+import { useAuthStore } from "../store/auth.store"
 
 const hero = () => {
-  return <div>hero</div>
+  const { isLoading, user, error } = useAuthStore();
+  
+  
+  return (
+  <>
+    <Navbar />
+  </>
+   )
 }
 
 export default hero
