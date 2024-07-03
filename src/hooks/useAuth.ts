@@ -1,11 +1,11 @@
-import { User, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
 import { useState } from "react"
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth.store";
 
 const useAuth = () => {
-  const {user, setUser, isLoading, setLoading, error,  setError } = useAuthStore();
+  const { setUser, isLoading, setLoading, error,  setError } = useAuthStore();
   const navigate = useNavigate();
 
   const signUp = async (email: string, password: string) => {
@@ -36,7 +36,18 @@ const useAuth = () => {
   };
 
   const logout = () => {
-    
+    setLoading(true);
+
+    signOut(auth)
+    .then(() => {
+      setUser({} as User);
+      navigate('/auth');
+  })
+    .catch(err => {
+      const result = err as Error;
+      setError(result.message)
+    })
+    .finally(() => setLoading(false))
   };
 
   return { signIn, signUp, logout,  isLoading, error }

@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom/client'
 import { App } from './components'
 import './index.css'
 import "bootstrap/dist/css/bootstrap.min.css"
-import {createBrowserRouter , RouterProvider, } from "react-router-dom";
+import {BrowserRouter, createBrowserRouter , Route,  Routes, } from "react-router-dom";
 import Hero from './page/hero'
 import Auth from './page/auth'
+import { AuthProvider } from './context/app.context'
 
 const router = createBrowserRouter([
   {
@@ -20,8 +21,15 @@ const router = createBrowserRouter([
 
 
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement ).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <BrowserRouter>
+    <AuthProvider>
+      <Routes>
+          <Route path='/' element={<Hero/>} />
+          <Route path='/auth' element={<Auth/>} />
+      </Routes>
+    </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>,
 )
